@@ -16,4 +16,8 @@ return [
     'important'                     => 'Importante',
     'warning'                       => 'Advertencia',
     'information'                   => 'Información',
+    //added
+    'dns_resolvs'                   => 'RESOLUCIONES DNS',
+    'last_resolvs'                  => 'Últimas',
+    'search_resolvs'                => 'Buscar',
 ];

@@ -12,5 +12,18 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('home');
 });
+
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
+
+Route::get('/dnsresolv/last', 'DnsResolvController@last')
+        ->name('dnsresolv.last');
+
+Route::get('/dnsresolv/show', 'DnsResolvController@show')
+        ->name('dnsresolv.show');
+
+Route::get('/dnsresolv/search', 'DnsResolvController@search')
+        ->name('dnsresolv.search');
