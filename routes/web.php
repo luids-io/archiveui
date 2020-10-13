@@ -11,13 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return redirect('home');
-});
+Route::redirect('/', 'home');
 
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
+Route::view('/home', 'home')->name('home');
 
 Route::get('/dnsresolv/last', 'DnsResolvController@last')
         ->name('dnsresolv.last');
