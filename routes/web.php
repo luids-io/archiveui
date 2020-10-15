@@ -23,3 +23,9 @@ Route::get('/dnsresolv/show', 'DnsResolvController@show')
 
 Route::get('/dnsresolv/search', 'DnsResolvController@search')
         ->name('dnsresolv.search');
+
+Route::get('/event/last', 'EventController@last')->name('event.last');
+
+Route::get('/event/show', 'EventController@show')->name('event.show');
+
+Route::get('/event/search', 'EventController@search')->name('event.search');

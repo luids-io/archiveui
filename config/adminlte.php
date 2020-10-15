@@ -231,6 +231,17 @@ return [
     */
 
     'menu' => [
+        ['header' => 'events'],
+        [
+            'text' => 'last_events',
+            'url'  => 'event/last',
+            'icon' => 'fas fa-fw fa-list',
+        ],
+        [
+            'text' => 'search_events',
+            'url'  => 'event/search',
+            'icon' => 'fas fa-fw fa-search',
+        ],
         ['header' => 'dns_resolvs'],
         [
             'text' => 'last_resolvs',

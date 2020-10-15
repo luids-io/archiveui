@@ -20,4 +20,7 @@ return [
     'dns_resolvs'                   => 'DNS RESOLVS',
     'last_resolvs'                  => 'Last',
     'search_resolvs'                => 'Search',
+    'events'                        => 'EVENTS',
+    'last_events'                   => 'Last',
+    'search_events'                 => 'Search',
 ];
