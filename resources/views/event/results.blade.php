@@ -15,7 +15,7 @@
         <h3 class="card-title"><i class="fas fa-search"></i> Search results: {{ $events->total() }}</h3>
         <div class="card-tools">
           <div class="input-group input-group-sm" style="width: 150px;">
-              <a href="{{ route('event.search') }}" class="btn btn-default"><i class="fas fa-search"></i>New search</a>
+              <a href="{{ route('event.search') }}" class="btn btn-default"><i class="fas fa-search"></i> New search</a>
           </div>
         </div>
       </div>
