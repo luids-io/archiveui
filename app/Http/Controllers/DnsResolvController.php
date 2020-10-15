@@ -41,73 +41,63 @@ class DnsResolvController extends Controller
      * @return \Illuminate\Http\Response
      */    
     public function search(Request $request, MessageBag $errors_bag) {
-        $isSearch = false;
-        $withErrs = false;
-
+        $isSearch = count($request->input()) > 0;
+        if (!$isSearch) {
+            return view('dnsresolv.search');
+        }
+        
         // parse input
+        $sStart = false;
+        $sEnd = false;
         $sTimeRange = trim($request->get('sTimeRange'));
         if ($sTimeRange != "") {
-            $isSearch = true;
             $dates = explode(" - ", $sTimeRange);
             if (count($dates) != 2) {
                 $errors_bag->add('sTimeRange', "Invalid range");
-                $withErrs = true;
             } else {
                 try {
                     $sStart = Carbon::createFromFormat("Y-m-d H:i:s", $dates[0], "UTC");
                     $sEnd = Carbon::createFromFormat("Y-m-d H:i:s", $dates[1], "UTC");                
                 } catch (\Exception $ex) {
                     $errors_bag->add('sTimeRange', "Invalid date format");
-                    $withErrs = true;
                 }                
             }
         }
         $sClientIP = trim($request->get('sClientIP'));
         if ($sClientIP != "") {
-            $isSearch = true;
             if (!ip2long($sClientIP)) {
                 $errors_bag->add('sClientIP', "Invalid ip client");
-                $withErrs = true;
             }
         }
         $sName = trim($request->get('sName'));
-        if ($sName != "") {
-            $isSearch = true;
-        }
         $sResolvedIP = $request->get('sResolvedIP');
         if ($sResolvedIP != "") {
-            $isSearch = true;
             if (!ip2long($sResolvedIP)) {
                 $errors_bag->add('sResolvedIP', "Invalid ip resolved");
-                $withErrs = true;
             }
         }
-
+        
         // if has errors
-        if ($withErrs) {
+        if ($errors_bag->count() > 0) {
             return view('dnsresolv.search')->withErrors($errors_bag);
         }
         
         // do search query
-        if ($isSearch) {
-            $query = DnsResolv::query();
-            if ($sStart && $sEnd) {
-                $query = $query->whereBetween("timestamp", [$sStart, $sEnd]);
-            }
-            if ($sClientIP != "") {
-                $query = $query->where("clientip", "=", $sClientIP);
-            }
-            if ($sName != "") {
-                $query = $query->where("name", "like", $sName);
-            }
-            if ($sResolvedIP != "") {
-                $query = $query->where("resolvedips", "=", $sResolvedIP);
-            }            
-            $resolvs = $query->paginate(20);
-            return view('dnsresolv.results', compact('resolvs'));
+        $query = DnsResolv::query();
+        if ($sStart && $sEnd) {
+            $query = $query->whereBetween("timestamp", [$sStart, $sEnd]);
         }
+        if ($sClientIP != "") {
+            $query = $query->where("clientip", "=", $sClientIP);
+        }
+        if ($sName != "") {
+            $query = $query->where("name", "like", $sName);
+        }
+        if ($sResolvedIP != "") {
+            $query = $query->where("resolvedips", "=", $sResolvedIP);
+        }            
+        $resolvs = $query->paginate(20);
         
-        //return search form
-        return view('dnsresolv.search');
+        return view('dnsresolv.results', compact('resolvs'));
     }
 }

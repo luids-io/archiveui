@@ -11,10 +11,7 @@
   <div class="col-md-12">
     <div class="card card-primary card-outline">
       <div class="card-header">
-        <h3 class="card-title">
-          <i class="fas fa-search"></i>
-          Search
-        </h3>
+        <h3 class="card-title"><i class="fas fa-search"></i> Search</h3>
       </div>
 
         <form role="form" method="GET">
@@ -31,10 +28,11 @@
                 </ul>
             </div>
            @endif
-                            
+                 
+        <div class="row">
+          <div class="col-md-6">
             <div class="form-group">
-              <label>Date and time range:</label>
-
+              <label>Date and time range</label>
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="far fa-clock"></i></span>
@@ -42,10 +40,10 @@
                 <input type="text" class="form-control float-right" id="sTimeRange" name="sTimeRange">
               </div>
             </div>
-
+          </div>            
+          <div class="col-md-6">
             <div class="form-group">
-              <label>Client IP:</label>
-
+              <label>Client IP</label>
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-laptop"></i></span>
@@ -53,10 +51,13 @@
                 <input type="text" class="form-control" id="sClientIP" name="sClientIP">
               </div>
             </div>
+          </div>
+        </div>
 
+        <div class="row">
+          <div class="col-md-6">   
             <div class="form-group">
-              <label>Query name:</label>
-
+              <label>Query name</label>
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-cloud"></i></span>
@@ -64,11 +65,10 @@
                 <input type="text" class="form-control" id="sName" name="sName">
               </div>
             </div>
-
-              
+          </div>   
+          <div class="col-md-6">
             <div class="form-group">
-              <label>Resolved IP:</label>
-
+              <label>Resolved IP</label>
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-server"></i></span>
@@ -76,6 +76,9 @@
                 <input type="text" class="form-control" id="sResolvedIP" name="sResolvedIP">
               </div>
             </div>
+          </div>
+        </div>
+           
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
@@ -95,13 +98,17 @@
     $('#sTimeRange').daterangepicker({
       timePicker: true,
       timePickerIncrement: 1,
-      startDate: moment().subtract(24,'Hour'),
-      endDate:  moment(),
       maxDate: moment(),
       locale: {
         format: 'YYYY-MM-DD hh:mm:ss'
+      },
+      autoUpdateInput: false,
+    },
+    function(start_date, end_date) {
+        $('#sTimeRange').val(start_date.format('YYYY-MM-DD hh:mm:ss')+' - '+end_date.format('YYYY-MM-DD hh:mm:ss'));
       }
-    });
+    );
+
     $('#sClientIP').inputmask({ alias: 'ip' });
     $('#sResolvedIP').inputmask({ alias: 'ip' });
   });

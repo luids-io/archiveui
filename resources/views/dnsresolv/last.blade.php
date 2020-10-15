@@ -12,7 +12,7 @@
   <div class="col-md-12">
     <div class="card card-primary card-outline">
       <div class="card-header">
-        <h3 class="card-title">Last resolvs</h3>
+        <h3 class="card-title"><i class="fas fa-list"></i> Last resolvs</h3>
       </div>
       <!-- /.card-header -->
       <div class="card-body table-responsive p-0">

@@ -12,10 +12,10 @@
   <div class="col-md-12">
     <div class="card card-primary card-outline">
       <div class="card-header">
-        <h3 class="card-title">Search results: {{ $resolvs->total() }}</h3>
+        <h3 class="card-title"><i class="fas fa-search"></i> Search results: {{ $resolvs->total() }}</h3>
         <div class="card-tools">
           <div class="input-group input-group-sm" style="width: 150px;">
-              <a href="{{ route('dnsresolv.search') }}" class="btn btn-default"><i class="fas fa-search"></i>New search</a>
+              <a href="{{ route('dnsresolv.search') }}" class="btn btn-default"><i class="fas fa-search"></i> New search</a>
           </div>
         </div>
       </div>
