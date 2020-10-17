@@ -30,7 +30,7 @@
               <th>Timestamp</th>
               <th>Client</th>
               <th>Name</th>
-              <th style="width: 10px">DNSSEC</th>
+              <th style="width: 10px">AD</th>
               <th style="width: 10px">RCode</th>
               <th>Resolved</th>
               <th style="width: 10px"></th>
@@ -41,23 +41,23 @@
         @foreach($resolvs as $resolv)
             <tr>
                 <td>{{$resolv->timestamp}}</td>
-                <td>{{$resolv->clientip}}</td>
+                <td>{{$resolv->clientIP}}</td>
                 <td>{{$resolv->name}}</td>
                 <td>
-                    @if ($resolv->authenticateddata)
+                    @if ($resolv->getAttribute('responseFlags.authenticatedData'))
                     <span class="badge bg-success">True</span>
                     @else
                     <span class="badge bg-danger">False</span>
                     @endif
                 </td>
-                <td>{{$resolv->returncode}}</td>
+                <td>{{$resolv->returnCode}}</td>
                 <td>
-                    @if(isset($resolv->resolvedips))
-                    @foreach($resolv->resolvedips as $resolvedip)
+                    @if(isset($resolv->resolvedIPs))
+                    @foreach($resolv->resolvedIPs as $resolvedIP)
                         @if (!$loop->first)
                         <br>
                         @endif
-                    {{ $resolvedip }}
+                    {{ $resolvedIP }}
                     @endforeach
                     @endif
                 </td>

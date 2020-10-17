@@ -30,11 +30,11 @@
                     </div>
                     <div class="form-group">
                         <label>Server IP</label>
-                        <input type="text" class="form-control" value="{{$resolv->serverip}}" readonly>
+                        <input type="text" class="form-control" value="{{$resolv->serverIP}}" readonly>
                     </div>
                     <div class="form-group">
                         <label>Client IP</label>
-                        <input type="text" class="form-control" value="{{$resolv->clientip}}" readonly>
+                        <input type="text" class="form-control" value="{{$resolv->clientIP}}" readonly>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -48,8 +48,20 @@
                     </div>
                       <div class="form-group">
                         <div class="custom-control custom-checkbox">
-                          <input class="custom-control-input" type="checkbox" id="checkingDisabled" readonly="readonly" onclick="javascript: return false;" @if ($resolv->checkingdisabled) checked @endif>
-                          <label for="checkingDisabled" class="custom-control-label">Checking disabled</label>
+                          <input class="custom-control-input" type="checkbox" id="isIPv6" readonly="readonly" onclick="javascript: return false;" @if ($resolv->isIPv6) checked @endif>
+                          <label for="isIPv6" class="custom-control-label">IPv6</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input class="custom-control-input" type="checkbox" id="queryDo" readonly="readonly" onclick="javascript: return false;" @if ($resolv->getAttribute('queryFlags.do')) checked @endif>
+                          <label for="queryDo" class="custom-control-label">DNSSEC OK</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input class="custom-control-input" type="checkbox" id="queryAD" readonly="readonly" onclick="javascript: return false;" @if ($resolv->getAttribute('queryFlags.authenticatedData')) checked @endif>
+                          <label for="queryAD" class="custom-control-label">Authenticated Data</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input class="custom-control-input" type="checkbox" id="queryCD" readonly="readonly" onclick="javascript: return false;" @if ($resolv->getAttribute('queryFlags.checkingDisabled')) checked @endif>
+                          <label for="queryCD" class="custom-control-label">Checking Disabled</label>
                         </div>
                       </div>
                 </div>
@@ -72,21 +84,21 @@
                         </div>
                         <div class="form-group">
                             <label>Return Code</label>
-                            <input type="text" class="form-control" value="{{$resolv->returncode}}" readonly>
+                            <input type="text" class="form-control" value="{{$resolv->returnCode}}" readonly>
                         </div>
                           <div class="form-group">
                             <div class="custom-control custom-checkbox">
-                              <input class="custom-control-input" type="checkbox" id="authenticatedData" readonly="readonly" onclick="javascript: return false;" @if ($resolv->authenticateddata) checked @endif>
-                              <label for="authenticatedData" class="custom-control-label">Authenticated Data</label>
+                              <input class="custom-control-input" type="checkbox" id="responseAD" readonly="readonly" onclick="javascript: return false;" @if ($resolv->getAttribute('responseFlags.authenticatedData')) checked @endif>
+                              <label for="responseAD" class="custom-control-label">Authenticated Data</label>
                             </div>
                           </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>Response</label>
-                            <textarea class="form-control" rows="4" readonly>@if (isset($resolv->resolvedips))
-@foreach ($resolv->resolvedips as $resolvedip)
-{{$resolvedip}}
+                            <textarea class="form-control" rows="4" readonly>@if (isset($resolv->resolvedIPs))
+@foreach ($resolv->resolvedIPs as $resolvedIP)
+{{$resolvedIP}}
 @endforeach
 @endif</textarea>
                         </div>
