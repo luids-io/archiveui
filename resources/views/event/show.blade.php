@@ -41,6 +41,12 @@
                         <input type="text" class="form-control" value="{{$event->created}}" readonly>
                     </div>
                 </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Received</label>
+                        <input type="text" class="form-control" value="{{$event->received}}" readonly>
+                    </div>
+                </div>
              </div><!-- .row -->      
 
              <div class="row">
@@ -69,6 +75,15 @@
                     <div class="form-group">
                         <label>Codename</label>
                         <input type="text" class="form-control" value="{{$event->codename}}" readonly>
+                    </div>
+                </div>
+             </div><!-- /row -->
+
+             <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Duplicates</label>
+                        <input type="text" class="form-control" value="{{$event->duplicates}}" readonly>
                     </div>
                 </div>
              </div><!-- /row -->

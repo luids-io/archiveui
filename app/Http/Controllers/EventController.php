@@ -11,7 +11,7 @@ use Carbon\Carbon;
 class EventController extends Controller
 {
     /**
-     * Display a listing of last dns resolv entries
+     * Display a listing of last event entries
      *
      * @return \Illuminate\Http\Response
      */
@@ -22,7 +22,7 @@ class EventController extends Controller
     }
 
     /**
-     * Display a dns resolv entry
+     * Display an event entry
      *
      * @param \Illuminate\Http\Response $request
      * @return \Illuminate\Http\Response
@@ -64,6 +64,7 @@ class EventController extends Controller
                 }                
             }
         }
+        $sReverseOrder = trim($request->get('sReverseOrder'));
         $sID = trim($request->get('sID'));
         $iCode = 0;
         $sCode = trim($request->get('sCode'));
@@ -87,7 +88,9 @@ class EventController extends Controller
         }
         $sLevelGE = trim($request->get('sLevelGE'));
         $sSourceHostname = trim($request->get('sSourceHostname'));
+        $sSourceProgram = trim($request->get('sSourceProgram'));
         $sDescription = trim($request->get('sDescription'));
+        $sUnmatchDescription = trim($request->get('sUnmatchDescription'));        
         $sTag = trim($request->get('sTag'));
         $sDataField = trim($request->get('sDataField'));
         $sDataValue = trim($request->get('sDataValue'));
@@ -124,14 +127,24 @@ class EventController extends Controller
         if ($sSourceHostname != "") {
             $query = $query->where("source.hostname", "=", $sSourceHostname);
         }
+        if ($sSourceProgram != "") {
+            $query = $query->where("source.program", "=", $sSourceProgram);
+        }
         if ($sDescription != "") {
-            $query = $query->where("description", "like", '%'.$sDescription.'%');
+            if ($sUnmatchDescription != "") {
+                $query = $query->where("description", "not like", '%'.$sDescription.'%');
+            } else {
+                $query = $query->where("description", "like", '%'.$sDescription.'%');
+            }
         }
         if ($sTag != "") {
             $query = $query->where("tags", "=", $sTag);
         }
         if ($sDataField != "") {
             $query = $query->where("data.$sDataField", "=", $sDataValue);
+        }
+        if ($sReverseOrder != "") {
+            $query = $query->orderBy('created', 'desc');
         }
         $events = $query->paginate(20);
         
