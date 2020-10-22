@@ -25,8 +25,8 @@
               <th>Timestamp</th>
               <th>Client</th>
               <th>Name</th>
-              <th style="width: 10px">AD</th>
               <th style="width: 10px">RCode</th>
+              <th style="width: 10px">AD</th>
               <th>Resolved</th>
               <th style="width: 10px"></th>
             </tr>
@@ -38,13 +38,17 @@
                 <td>{{$resolv->clientIP}}</td>
                 <td>{{$resolv->name}}</td>
                 <td>
-                    @if ($resolv->getAttribute('responseFlags.authenticatedData'))
-                    <span class="badge bg-success">True</span>
+                    @if ($resolv->returnCode == 0)
+                    <span class="badge bg-success">{{$resolv->returnCode}}</span>
                     @else
-                    <span class="badge bg-danger">False</span>
+                    <span class="badge bg-danger">{{$resolv->returnCode}}</span>
                     @endif
                 </td>
-                <td>{{$resolv->returnCode}}</td>
+                <td>
+                    @if ($resolv->getAttribute('responseFlags.authenticatedData'))
+                    <i class="fas fa-check"></i>
+                    @endif
+                </td>
                 <td>
                     @if(isset($resolv->resolvedIPs))
                     @foreach($resolv->resolvedIPs as $resolvedIP)

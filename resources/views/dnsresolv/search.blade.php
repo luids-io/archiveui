@@ -39,8 +39,15 @@
                 </div>
                 <input type="text" class="form-control float-right" id="sTimeRange" name="sTimeRange">
               </div>
+              <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" type="checkbox" id="sReverseOrder" name="sReverseOrder">
+                <label for="sReverseOrder" class="custom-control-label">Reverser order</label>
+              </div>
             </div>
           </div>            
+        </div>
+
+        <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <label>Client IP</label>
@@ -52,8 +59,19 @@
               </div>
             </div>
           </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Server IP</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                </div>
+                <input type="text" class="form-control" id="sServerIP" name="sServerIP">
+              </div>
+            </div>
+          </div>
         </div>
-
+                      
         <div class="row">
           <div class="col-md-6">   
             <div class="form-group">
@@ -63,6 +81,10 @@
                   <span class="input-group-text"><i class="fas fa-cloud"></i></span>
                 </div>
                 <input type="text" class="form-control" id="sName" name="sName">
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" type="checkbox" id="sUnmatchName" name="sUnmatchName">
+                <label for="sUnmatchName" class="custom-control-label">Unmatch</label>
               </div>
             </div>
           </div>   
@@ -75,6 +97,21 @@
                 </div>
                 <input type="text" class="form-control" id="sResolvedIP" name="sResolvedIP">
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">   
+            <div class="form-group">
+              <label>Query ID</label>
+              <input type="text" class="form-control" id="sQID" name="sQID">
+            </div>
+          </div>   
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Return Code</label>
+              <input type="text" class="form-control" id="sReturnCode" name="sReturnCode">
             </div>
           </div>
         </div>
@@ -97,19 +134,22 @@
     //Date range picker with time picker
     $('#sTimeRange').daterangepicker({
       timePicker: true,
+      timePicker24Hour: true,
+      timePickerSeconds: true,
       timePickerIncrement: 1,
       maxDate: moment(),
       locale: {
-        format: 'YYYY-MM-DD hh:mm:ss'
+        format: 'YYYY-MM-DD HH:mm:ss'
       },
-      autoUpdateInput: false,
+      autoUpdateInput: false
     },
     function(start_date, end_date) {
-        $('#sTimeRange').val(start_date.format('YYYY-MM-DD hh:mm:ss')+' - '+end_date.format('YYYY-MM-DD hh:mm:ss'));
+        $('#sTimeRange').val(start_date.format('YYYY-MM-DD HH:mm:ss')+' - '+end_date.format('YYYY-MM-DD HH:mm:ss'));
       }
     );
 
     $('#sClientIP').inputmask({ alias: 'ip' });
+    $('#sServerIP').inputmask({ alias: 'ip' });
     $('#sResolvedIP').inputmask({ alias: 'ip' });
   });
 </script>

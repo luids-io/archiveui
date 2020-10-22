@@ -63,17 +63,49 @@ class DnsResolvController extends Controller
                 }                
             }
         }
+        $sReverseOrder = trim($request->get('sReverseOrder'));
         $sClientIP = trim($request->get('sClientIP'));
         if ($sClientIP != "") {
             if (!ip2long($sClientIP)) {
                 $errors_bag->add('sClientIP', "Invalid ip client");
             }
         }
+        $sServerIP = trim($request->get('sServerIP'));
+        if ($sServerIP != "") {
+            if (!ip2long($sServerIP)) {
+                $errors_bag->add('sServerIP', "Invalid ip server");
+            }
+        }
         $sName = trim($request->get('sName'));
+        $sUnmatchName = trim($request->get('sUnmatchName'));        
         $sResolvedIP = $request->get('sResolvedIP');
         if ($sResolvedIP != "") {
             if (!ip2long($sResolvedIP)) {
                 $errors_bag->add('sResolvedIP', "Invalid ip resolved");
+            }
+        }
+        $iQID = 0;
+        $sQID= trim($request->get('sQID'));
+        if ($sQID != "") {
+            if (!is_numeric($sQID)) {
+                $errors_bag->add('sQID', "Invalid Query ID");
+            } else {
+                $iQID= (int)$sQID;
+                if ($iQID <= 0) {
+                    $errors_bag->add('sQID', "Invalid QueryID");
+                }
+            }
+        }
+        $iReturnCode = 0;
+        $sReturnCode= trim($request->get('sReturnCode'));
+        if ($sReturnCode != "") {
+            if (!is_numeric($sReturnCode)) {
+                $errors_bag->add('sReturnCode', "Invalid Return Code");
+            } else {
+                $iReturnCode = (int)$sReturnCode;
+                if ($iReturnCode < 0) {
+                    $errors_bag->add('sReturnCode', "Invalid Return Code");
+                }
             }
         }
         
@@ -88,14 +120,30 @@ class DnsResolvController extends Controller
             $query = $query->whereBetween("timestamp", [$sStart, $sEnd]);
         }
         if ($sClientIP != "") {
-            $query = $query->where("clientip", "=", $sClientIP);
+            $query = $query->where("clientIP", "=", $sClientIP);
+        }
+        if ($sServerIP != "") {
+            $query = $query->where("serverIP", "=", $sServerIP);
         }
         if ($sName != "") {
-            $query = $query->where("name", "like", $sName);
+            if($sUnmatchName != "") {
+                $query = $query->where("name", "not like", $sName);
+            } else {
+                $query = $query->where("name", "like", $sName);
+            }
         }
         if ($sResolvedIP != "") {
-            $query = $query->where("resolvedips", "=", $sResolvedIP);
-        }            
+            $query = $query->where("resolvedIPs", "=", $sResolvedIP);
+        }
+        if ($sQID != "") {
+            $query = $query->where("qid", "=", $iQID);
+        }
+        if ($sReturnCode != "") {
+            $query = $query->where("returnCode", "=", $iReturnCode);
+        }
+        if ($sReverseOrder != "") {
+            $query = $query->orderBy('timestamp', 'desc');
+        }
         $resolvs = $query->paginate(20);
         
         return view('dnsresolv.results', compact('resolvs'));
