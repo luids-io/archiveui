@@ -12,10 +12,12 @@ RUN apt update && \
 
 ## configure apache
 COPY apache-site.conf /etc/apache2/sites-available/archiveui.conf
-RUN rm /etc/apache2/sites-enabled/* && \
-    a2enmod rewrite && \
-    a2enmod env && \
-    a2ensite archiveui
+COPY apache-site-ssl.conf /etc/apache2/sites-available/archiveui-ssl.conf
+
+RUN mkdir -p /etc/apache2/ssl && chmod 700 /etc/apache2/ssl && \
+    rm /etc/apache2/sites-enabled/* && \
+    a2enmod rewrite && a2enmod env && a2enmod ssl && \
+    a2ensite archiveui && a2ensite archiveui-ssl
 
 ## copy base software (it uses .dockerignore)
 COPY . /var/www
@@ -48,10 +50,10 @@ COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod 755 /usr/local/bin/docker-entrypoint.sh && \
     ln -s /usr/local/bin/docker-entrypoint.sh /
 
-EXPOSE 80
+EXPOSE 80 443
 
-VOLUME [ "/var/www/storage" ]
+VOLUME [ "/var/www/storage", "/etc/apache2/ssl" ]
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["start-apache"]
