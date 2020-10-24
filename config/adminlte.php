@@ -47,6 +47,7 @@ return [
 
     'logo' => '<b>Archive</b>UI',
     'logo_img' => 'img/luIDSlogo.png',
+    'logo_login_img' => 'img/luIDSlogo-black.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -231,6 +232,7 @@ return [
     */
 
     'menu' => [
+        ['header' => 'main_navigation'],
         ['header' => 'events'],
         [
             'text' => 'last_events',
