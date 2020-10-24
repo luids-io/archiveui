@@ -11,6 +11,16 @@ use Carbon\Carbon;
 class DnsResolvController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of last dns resolv entries
      *
      * @return \Illuminate\Http\Response

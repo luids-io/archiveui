@@ -194,11 +194,11 @@ return [
 
     'login_url' => 'login',
 
-    'register_url' => 'register',
+    'register_url' => false,
 
-    'password_reset_url' => 'password/reset',
+    'password_reset_url' => false,
 
-    'password_email_url' => 'password/email',
+    'password_email_url' => false,
 
     'profile_url' => false,
 
@@ -252,6 +252,12 @@ return [
             'text' => 'search_resolvs',
             'url'  => 'dnsresolv/search',
             'icon' => 'fas fa-fw fa-search',
+        ],
+        ['header' => 'account_settings'],
+        [
+            'text' => 'change_password',
+            'url'  => 'password/change',
+            'icon' => 'fas fa-fw fa-lock',
         ],
     ],
 

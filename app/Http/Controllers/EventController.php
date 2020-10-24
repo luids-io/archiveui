@@ -11,6 +11,16 @@ use Carbon\Carbon;
 class EventController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of last event entries
      *
      * @return \Illuminate\Http\Response

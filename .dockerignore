@@ -24,3 +24,5 @@ yarn-error.log
 !/storage/framework/sessions/.gitignore
 /storage/framework/views/*
 !/storage/framework/views/.gitignore
+/storage/database/*
+!/storage/database/.gitignore

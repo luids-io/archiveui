@@ -6,7 +6,7 @@ LABEL maintainer="Luis Guillén Civera <luisguillenc@gmail.com>"
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update && \
     apt install -y libapache2-mod-php7.4 php7.4-gd php7.4-mbstring \
-        php7.4-xml php7.4-zip php-mongodb composer && \
+        php7.4-xml php7.4-zip php7.4-sqlite3 php-mongodb composer && \
     rm -rf /var/lib/apt/lists/* && \
     apt clean
 
@@ -25,20 +25,33 @@ RUN /usr/bin/composer install
 
 ## tune app
 ENV APP_URL http://localhost
-ENV DB_CONNECTION mongodb
-ENV DB_HOST mongodb
-ENV DB_PORT 27017
-ENV DB_DATABASE luidsdb
-ENV DB_USERNAME ""
-ENV DB_PASSWORD ""
+ENV INSTALL_APP_KEY ""
+ENV ARCHIVE_HOST mongodb
+ENV ARCHIVE_PORT 27017
+ENV ARCHIVE_DATABASE luidsdb
+ENV ARCHIVE_USERNAME ""
+ENV ARCHIVE_PASSWORD ""
+ENV ADMIN_NAME Administrator
+ENV ADMIN_USERNAME admin
+ENV ADMIN_EMAIL ""
+ENV ADMIN_PASSWORD="admin"
 
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache && \
-    mv .env.prod .env
-
-RUN php artisan config:clear && php artisan cache:clear && \
+RUN touch /var/www/storage/database/database.sqlite && \
+    chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache && \
+    mv .env.prod .env && \
+    php artisan config:clear && php artisan cache:clear && \
     php artisan route:clear && php artisan view:clear && \
-    php artisan key:generate 
+    php artisan migrate:install && php artisan migrate --force
+
+## setup entrypoint
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod 755 /usr/local/bin/docker-entrypoint.sh && \
+    ln -s /usr/local/bin/docker-entrypoint.sh /
 
 EXPOSE 80
 
-CMD ["/usr/sbin/apache2ctl", "-DFOREGROUND"]
+VOLUME [ "/var/www/storage" ]
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ["start-apache"]

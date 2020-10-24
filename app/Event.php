@@ -6,6 +6,7 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 class Event extends Model
 {
+    protected $connection = 'archive';
     protected $collection = 'events';
     protected $dates = ['created', 'received'];
 
