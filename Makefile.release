@@ -1,0 +1,55 @@
+# Makefile for release
+SHELL = /bin/bash
+EMPTY:=
+SPACE:=$(EMPTY) $(EMPTY)
+COMMA:=$(EMPTY),$(EMPTY)
+
+ifeq (, $(shell which curl))
+	$(error "No curl in $$PATH, please install")
+endif
+
+
+NAME:=archiveui
+VERSION=$(shell git describe --match 'v[0-9]*' --dirty='.m' --always)
+
+all:
+	@echo Use the 'release' target to build a release.
+
+release: build tar installer
+
+.PHONY: build
+build:
+	@echo Cleaning old builds
+	@rm -rf build && mkdir build
+	mkdir -p build/archiveui
+	cp -r app bootstrap config database public resources routes build/archiveui
+	cp LICENSE composer.* artisan package.json phpunit.xml server.php webpack.mix.js build/archiveui
+	mkdir -p build/archiveui/vendor
+	mkdir -p build/archiveui/storage/app/public
+	mkdir -p build/archiveui/storage/database
+	touch build/archiveui/storage/database/database.sqlite
+	mkdir -p build/archiveui/storage/framework/{cache,sessions,testing,views}
+	mkdir -p build/archiveui/storage/logs
+	cd build/archiveui ; composer install
+	cp .env.prod build/archiveui/.env
+	cd build/archiveui ; php artisan migrate:install && php artisan migrate --force
+
+.PHONY: tar
+tar:
+	@echo Cleaning old releases
+	@rm -rf release && mkdir release
+	tar -zcf release/$(NAME)_$(VERSION).tgz -C build archiveui
+
+.PHONY: installer
+installer:
+	cp deployments/installer/installer.sh release/installer.sh
+	sed -i 's/RELEASE="RELEASE"/RELEASE="$(VERSION)"/' release/installer.sh
+
+.PHONY: version
+version:
+	@echo $(VERSION)
+
+.PHONY: clean
+clean:
+	rm -rf release
+	rm -rf build
