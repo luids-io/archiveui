@@ -95,10 +95,20 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Response</label>
+                            <label>Resolved IPs</label>
                             <textarea class="form-control" rows="4" readonly>@if (isset($resolv->resolvedIPs))
 @foreach ($resolv->resolvedIPs as $resolvedIP)
 {{$resolvedIP}}
+@endforeach
+@endif</textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Resolved CNAMEs</label>
+                            <textarea class="form-control" rows="2" readonly>@if (isset($resolv->resolvedCNAMEs))
+@foreach ($resolv->resolvedCNAMEs as $resolvedCNAME)
+{{$resolvedCNAME}}
 @endforeach
 @endif</textarea>
                         </div>

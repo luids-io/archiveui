@@ -94,6 +94,7 @@ class DnsResolvController extends Controller
                 $errors_bag->add('sResolvedIP', "Invalid ip resolved");
             }
         }
+        $sResolvedCNAME = trim($request->get('sResolvedCNAME'));
         $iQID = 0;
         $sQID= trim($request->get('sQID'));
         if ($sQID != "") {
@@ -144,6 +145,9 @@ class DnsResolvController extends Controller
         }
         if ($sResolvedIP != "") {
             $query = $query->where("resolvedIPs", "=", $sResolvedIP);
+        }
+        if ($sResolvedCNAME != "") {
+            $query = $query->where("resolvedCNAMEs", "=", $sResolvedCNAME);
         }
         if ($sQID != "") {
             $query = $query->where("qid", "=", $iQID);

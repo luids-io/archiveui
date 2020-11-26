@@ -98,9 +98,18 @@
                 <input type="text" class="form-control" id="sResolvedIP" name="sResolvedIP">
               </div>
             </div>
+            <div class="form-group">
+              <label>Resolved CNAME</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-server"></i></span>
+                </div>
+                <input type="text" class="form-control" id="sResolvedCNAME" name="sResolvedCNAME">
+              </div>
+            </div>
           </div>
         </div>
-
+           
         <div class="row">
           <div class="col-md-6">   
             <div class="form-group">
