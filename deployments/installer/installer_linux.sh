@@ -21,7 +21,7 @@ APACHE_DIR=/etc/apache2
 
 ## Download
 DOWNLOAD_BASE="https://github.com/luids-io/${NAME}/releases/download"
-DOWNLOAD_URI="${DOWNLOAD_BASE}/${RELEASE}/${NAME}_${RELEASE}.tgz"
+DOWNLOAD_URI="${DOWNLOAD_BASE}/v${RELEASE}/${NAME}_${RELEASE}.tgz"
 
 ## Dependencies
 DEPS="libapache2-mod-php7.4 php7.4-cli php7.4-gd php7.4-mbstring"
