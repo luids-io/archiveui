@@ -10,7 +10,7 @@ endif
 
 
 NAME:=archiveui
-VERSION=$(shell git describe --match 'v[0-9]*' --dirty='.m' --always)
+VERSION=$(shell git describe --match 'v[0-9]*' --dirty='.m' --always | sed 's/^v//')
 GITHUB_ORG:=luids-io
 DOCKER_ORG:=luids
 DOCKER_PLATFORMS="linux/amd64,linux/arm64,linux/arm/v7,linux/ppc64le,linux/s390x"
